@@ -14,11 +14,12 @@ const parser = parse({
 fs.createReadStream('./worldcities.csv')
 .pipe(parse({delimiter: ',', from_line: 2}))
 .on('data', (row) =>{
-    data.push(row);
+    //Create an object for each location. Object has 3 properties cityName, latitude and longitude.
+    const city = {cityName: row[0], lat: row[1], lng: row[2]};
+    data.push(city);
 })
 .on('end', () => {
     console.log('finished');
-    console.log(data);
 })
 .on('error', (error) =>{
     console.log(error.message);
@@ -27,7 +28,7 @@ fs.createReadStream('./worldcities.csv')
 app.use(express.static('public'));
 
 app.get('/',(req,res) =>{
-    
+    res.render('index.ejs');
 });
 
 app.listen(port, () =>{
