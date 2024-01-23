@@ -15,7 +15,16 @@ function getDayTimeAndTemp(dateList, tempList){
         list.push(dateList[index].slice(8,10));
     }
     datesTimesAndTemp.dates = list;
-    console.log(datesTimesAndTemp)
+    list = [];
+    for (let index = 0; index < 10; index++) {
+        list.push(`0${index}00`);
+    }
+    for (let index = 10; index < 24; index++) {
+        list.push(`${index}00`);
+    }
+    datesTimesAndTemp.times = list;
+    datesTimesAndTemp.temp = tempList;
+    console.log(datesTimesAndTemp);
 }
 
 app.get('/',(req,res) =>{
@@ -25,9 +34,9 @@ app.get('/',(req,res) =>{
         baseURL: 'https://api.open-meteo.com/v1'
     })
     .then(function (response){
-        getDayTimeAndTemp(response.data.hourly.time, response.data.temperature_2m)
+        getDayTimeAndTemp(response.data.hourly.time, response.data.hourly.temperature_2m)
     })
-    res.render('index.ejs');
+    res.render('index.ejs',{data: datesTimesAndTemp});
 });
 
 app.listen(port, () =>{
