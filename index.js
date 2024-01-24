@@ -35,9 +35,11 @@ app.get('/',(req,res) =>{
     })
     .then(function (response){
         getDayTimeAndTemp(response.data.hourly.time, response.data.hourly.temperature_2m)
-    })
-    res.render('index.ejs',{data: datesTimesAndTemp});
+        res.render('index.ejs',{data: datesTimesAndTemp});
+    });
 });
+
+app.post('/country')
 
 app.listen(port, () =>{
     console.log(`Listening on port ${port}`)
