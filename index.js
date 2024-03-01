@@ -1,13 +1,15 @@
-import express from 'express';
+import express, { response } from 'express';
 import axios from 'axios';
 import bodyParser from 'body-parser';
 import {readFile} from 'node:fs';
+import countries from './worldcities.json' assert { type: 'json'};
 
 const app = express();
 const port = 3000;
 let datesTimesAndTemp = {};
 
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({extended: true}));
 
 function getDayTimeAndTemp(dateList, tempList){
     let list = [];
@@ -28,18 +30,21 @@ function getDayTimeAndTemp(dateList, tempList){
 }
 
 app.get('/',(req,res) =>{
-    axios({
-        method: 'get',
-        url: '/forecast?latitude=51.558&longitude=-1.7812&hourly=temperature_2m',
-        baseURL: 'https://api.open-meteo.com/v1'
-    })
-    .then(function (response){
-        getDayTimeAndTemp(response.data.hourly.time, response.data.hourly.temperature_2m)
-        res.render('index.ejs',{data: datesTimesAndTemp});
-    });
+    res.render('index.ejs',{data: datesTimesAndTemp});
 });
 
-app.post('/country')
+app.post('/country', (req, res) =>{
+    console.log(req.body.myCountry);
+    // axios({
+    //     method: 'get',
+    //     url: '/forecast?latitude=51.558&longitude=-1.7812&hourly=temperature_2m',
+    //     baseURL: 'https://api.open-meteo.com/v1'
+    // })
+    // .then(function (response){
+    //     getDayTimeAndTemp(response.data.hourly.time, response.data.hourly.temperature_2m)
+        res.render('index.ejs',{data: datesTimesAndTemp});
+    // });
+})
 
 app.listen(port, () =>{
     console.log(`Listening on port ${port}`)
