@@ -35,15 +35,18 @@ app.get('/',(req,res) =>{
 
 app.post('/country', (req, res) =>{
     console.log(req.body.myCountry);
-    // axios({
-    //     method: 'get',
-    //     url: '/forecast?latitude=51.558&longitude=-1.7812&hourly=temperature_2m',
-    //     baseURL: 'https://api.open-meteo.com/v1'
-    // })
-    // .then(function (response){
-    //     getDayTimeAndTemp(response.data.hourly.time, response.data.hourly.temperature_2m)
+    let city = countries.filter((hit) => hit.city === req.body.myCountry);
+    city = city[0];
+    console.log(city.lat);
+    axios({
+        method: 'get',
+        url: `/forecast?latitude=${city.lat}&longitude=${city.lng}&hourly=temperature_2m`,
+        baseURL: 'https://api.open-meteo.com/v1'
+    })
+    .then(function (response){
+        getDayTimeAndTemp(response.data.hourly.time, response.data.hourly.temperature_2m)
         res.render('index.ejs',{data: datesTimesAndTemp});
-    // });
+    });
 })
 
 app.listen(port, () =>{
