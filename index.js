@@ -1,7 +1,6 @@
 import express, { response } from 'express';
 import axios from 'axios';
 import bodyParser from 'body-parser';
-import {readFile} from 'node:fs';
 import countries from './worldcities.json' assert { type: 'json'};
 
 const app = express();
@@ -11,6 +10,7 @@ let datesTimesAndTemp = {};
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
+//gets 
 function getDayTimeAndTemp(dateList, tempList){
     let list = [];
     for (let index = 0; index < dateList.length; index += 25) {
@@ -37,7 +37,6 @@ app.post('/country', (req, res) =>{
     console.log(req.body.myCountry);
     let city = countries.filter((hit) => hit.city === req.body.myCountry);
     city = city[0];
-    console.log(city.lat);
     axios({
         method: 'get',
         url: `/forecast?latitude=${city.lat}&longitude=${city.lng}&hourly=temperature_2m`,
