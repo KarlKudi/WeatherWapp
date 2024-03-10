@@ -41,16 +41,16 @@ function getDayAverageTemp(tempList){
         averageTempList.push(totalTemp); //push the whole integer to an array, should end up with 7 whole numbers
         totalTemp = 0;
     };
-    datesTimesAndTemp.averageTemperatures = averageTempList;
+    datesTimesAndTemp.averageTemperatures = averageTempList; //create new object property setting it to list of average temperatures
 };
 
 app.get('/',(req,res) =>{
-    res.render('index.ejs',{data: datesTimesAndTemp});
+    res.render('index.ejs');
 });
 
 app.post('/country', (req, res) =>{
     console.log(req.body.myCountry);
-    let city = countries.filter((hit) => hit.city === req.body.myCountry);
+    let city = countries.filter((hit) => hit.city === req.body.myCity);
     city = city[0];
     axios({
         method: 'get',

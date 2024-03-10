@@ -8,14 +8,18 @@
       <title>WeatherWapp</title>
   </head>
   <body>
-    <form method="post" action="/country">
-      <div style="width:300px;">
-        <input id="myInput" type="text" name="myCountry" placeholder="Country">
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid justify-content-center">
+        <form class="d-flex" role="search" method="post" action="/country">
+          <input id="myInput" class="form-control me-2" name="myCity" type="search" placeholder="Search for a city" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
       </div>
-      <input type="submit">
-    </form>
-    <% if (locals.data.temp){ %>
-    <p><%= data.averageTemperatures[0] %></p>
+    </nav>
+    <% if (locals.data){ %>
+      <% for(let i = 0; i < data.averageTemperatures.length; i++){ %>
+        <p><%= data.averageTemperatures[i] %></p>
+      <% } %>
     <% } %>
   </body>
 </html>
