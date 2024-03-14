@@ -1,3 +1,7 @@
 body{
-    background-color: rgb(23, 170, 249);
+    background-color: rgb(201, 196, 185);
+}
+
+.navbar{
+    padding: .5% 0 .5% 0;
 }
