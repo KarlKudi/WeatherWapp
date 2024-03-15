@@ -43,15 +43,31 @@ function getDayAverageTemp(tempList){
 };
 
 function getAverageWeatherCode(weathercodes){
-    console.log("getAverageWeatherCode running");
-    for(let i = 0; i < 168; i += 24){
-        let mf = 1;
-        let compare = 0;
-        for(let j = i + 1; j < i + 24; j++){
-
-        }
-    }
-}
+    let mf = 1;
+    let compare = 1;
+    let mfNum = 0;
+    let list = [];
+    for(let i = 0; i < weathercodes.length; i += 24){ //Splits the weatherCodes array into 7 chunks. 1 chunk = 1 day
+        for(let j = i; j < i + 24; j++){
+            for(let y = j + 1; y < i + 24; y++){
+                if(weathercodes[j] === weathercodes[y]){
+                    mf += 1;
+                }
+            };
+            if(mf > compare){
+                mfNum = weathercodes[j];
+                compare = mf;
+            };
+            mf = 1;
+        };
+        list.push(mfNum)
+        mf = 1;
+        compare = 1;
+        mfNum = 0;
+    };
+    data.weathercodes = list;
+    console.log(data.weathercodes);
+};
 
 app.get('/',(req,res) =>{
     res.render('index.ejs');
@@ -68,7 +84,8 @@ app.post('/country', (req, res) =>{
     })
     .then(function (response){
         getDates(response.data.hourly.time);
-        getDayAverageTemp(data.temp);
+        getDayAverageTemp(response.data.hourly.temperature_2m);
+        getAverageWeatherCode(response.data.hourly.weather_code);
         res.render('index.ejs',{data: data});
     });
 });
