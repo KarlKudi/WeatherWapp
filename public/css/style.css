@@ -1,7 +1,37 @@
 body{
-    background-color: rgb(201, 196, 185);
+    background-color: #1363DF;
+    text-align: center;
+    margin: 0;
 }
 
 .navbar{
     padding: .5% 0 .5% 0;
+}
+
+/* Search bar */
+.searchForm{
+    background-color: #06283D;
+    padding: 20px 0  20px 0;
+    border-bottom: 1px solid white;
+}
+
+.searchInputs{
+    width: 20%;
+    font-size: 18px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.searchButton{
+    font-size: 18px;
+    color: black;
+    border: #DFF6FF;
+    border-radius: 5px;
+    background-color: #DFF6FF;
+}
+
+.searchButton:hover{
+    color: white;
+    cursor: pointer;
+    background-color: #07465f;
 }
