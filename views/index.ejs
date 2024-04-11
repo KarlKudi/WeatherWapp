@@ -10,20 +10,24 @@
       <title>WeatherWapp</title>
   </head>
   <body>
-    <nav class="">
-      <div class="">
-        <form class="searchForm" role="search" method="post" action="/country">
-          <input class="countryInput searchInputs" name="myCountry " type="search" placeholder="Country">
-          <input id="myInput" class="searchInputs" name="myCity" type="search" placeholder="City" aria-label="Search">
-          <button class="searchButton" type="submit"> <i class="fa-solid fa-magnifying-glass"></i> </button>
-        </form>
+    <div id="content">
+      <form class="searchForm" role="search" method="post" action="/country">
+        <input class="countryInput searchInputs" name="myCountry " type="search" placeholder="Country">
+        <input id="myInput" class="searchInputs" name="myCity" type="search" placeholder="City" aria-label="Search">
+        <button class="searchButton" type="submit"> <i class="fa-solid fa-magnifying-glass"></i> </button>
+      </form>
+      <% if (locals.data){ %>
+        <div id="numbers">
+          <% for(let i = 0; i < data.averageTemperatures.length; i++){ %>
+            <p><%= data.averageTemperatures[i] %></p>
+          <% } %>
+        </div>
+      <%} else{ %>
+        <div id="description">
+          <h1>How to use this website</h1>
       </div>
-    </nav>
-    <% if (locals.data){ %>
-      <% for(let i = 0; i < data.averageTemperatures.length; i++){ %>
-        <p><%= data.averageTemperatures[i] %></p>
       <% } %>
-    <% } %>
+    </div>
     <script type="module" src="scripts/autoSuggestion.js"></script>
   </body>
 </html>
