@@ -13,9 +13,8 @@
   </head>
   <body>
     <header>
-        <a href="/"><h1 class="screenTitle">WeatherWapp</h1></a>
+        <a href="/"><h2 class="screenTitle">WeatherWapp</h2></a>
     </header>
-    <div id="content">
       <form class="searchForm" role="search" method="post" action="/country">
         <input class="countryInput searchInputs" name="myCountry " type="search" placeholder="Country">
         <input id="myInput" class="searchInputs" name="myCity" type="search" placeholder="City" aria-label="Search">
@@ -30,9 +29,10 @@
       <%} else{ %>
         <div id="description">
           <h1>How to use this website</h1>
-      </div>
+          <p>Enter the country and city you want to know the weather of. We'll handle the rest.smile</p>
+        </div>
       <% } %>
-    </div>
+    <footer>By Carl Egonu</footer>
     <script type="module" src="scripts/autoSuggestion.js"></script>
   </body>
 </html>
