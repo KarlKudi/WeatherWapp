@@ -32,6 +32,24 @@ app.use(bodyParser.urlencoded({extended: true}));
 //     return data;
 // };
 
+function getDateAndDay(){
+    const d = new Date();
+    console.log(d);
+    const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
+    let week = {};
+    let reset = d.getDay();
+    for(let i = 0; i < 7; i++){
+        if(reset < 7){
+            week.i = {"day": weekdays[d.getDay() + i], "date": d.getDate()};
+        }else{
+
+        }
+    };
+    console.log();
+    console.log();
+}
+getDateAndDay();
+
 //Create average temperature for each day of the week
 function getDayAverageTemp(tempList){
     let averageTempList = [];
@@ -75,13 +93,6 @@ function getAverageWeatherCode(weathercodes){
 };
 
 app.get('/',(req,res) =>{
-    const d = new Date();
-    console.log(d);
-
-    const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
-
-    console.log(d.getDay());
-    console.log(weekdays[d.getDay()]);
     res.render('index.ejs');
 });
 
