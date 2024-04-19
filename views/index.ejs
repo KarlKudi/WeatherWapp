@@ -21,9 +21,11 @@
         <button class="searchButton" type="submit"> <i class="fa-solid fa-magnifying-glass"></i> </button>
       </form>
       <% if (locals.data){ %>
-        <div id="numbers">
+        <div id="responseContainer">
           <% for(let i = 0; i < data.averageTemperatures.length; i++){ %>
-            <p><%= data.averageTemperatures[i] %></p>
+            <div class="weatherCard">
+              <h2 class="weatherTemperature"><%= data.averageTemperatures[i] %></h2>
+            </div>
           <% } %>
         </div>
       <%} else{ %>

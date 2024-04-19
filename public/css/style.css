@@ -60,12 +60,6 @@ footer{
     flex-direction: column;
 } */
 
-#numbers{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
 #description{
     background-color: #3282B8;
     color: rgb(255, 255, 255);
@@ -105,3 +99,17 @@ footer{
     cursor: pointer;
     background-color: #07465f;
 }
+
+/* Weather response */
+
+#responseContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color: white;
+}
+
+.responseContainer{
+    
+}
+

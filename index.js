@@ -13,23 +13,24 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
 //Creates times for each hour of the day.
-function getDates(dateList){
-    let list = [];
-    for (let index = 0; index < dateList.length; index += 25) {
-        list.push(dateList[index].slice(8,10));
-    };
-    data.dates = list;
-    list = [];
-    for (let index = 0; index < 10; index++) {
-        list.push(`0${index}00`);
-    };
-    for (let index = 10; index < 24; index++) {
-        list.push(`${index}00`);
-    };
+// function getDates(dateList){
+//     let list = [];
+//     for (let index = 0; index < dateList.length; index += 25) {
+//         list.push(dateList[index].slice(8,10));
+//     };
+//     data.dates = list;
+//     list = [];
+//     for (let index = 0; index < 10; index++) {
+//         list.push(`0${index}00`);
+//     };
+//     for (let index = 10; index < 24; index++) {
+//         list.push(`${index}00`);
+//     };
     
-    data.times = list;
-    return data;
-};
+//     data.times = list;
+//     console.log(list)
+//     return data;
+// };
 
 //Create average temperature for each day of the week
 function getDayAverageTemp(tempList){
@@ -74,6 +75,13 @@ function getAverageWeatherCode(weathercodes){
 };
 
 app.get('/',(req,res) =>{
+    const d = new Date();
+    console.log(d);
+
+    const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
+
+    console.log(d.getDay());
+    console.log(weekdays[d.getDay()]);
     res.render('index.ejs');
 });
 
@@ -86,7 +94,7 @@ app.post('/country', (req, res) =>{
         baseURL: 'https://api.open-meteo.com/v1'
     })
     .then(function (response){
-        getDates(response.data.hourly.time);
+        // getDates(response.data.hourly.time);
         getDayAverageTemp(response.data.hourly.temperature_2m);
         getAverageWeatherCode(response.data.hourly.weather_code);
         res.render('index.ejs',{data: data});
