@@ -35,18 +35,26 @@ app.use(bodyParser.urlencoded({extended: true}));
 function getDateAndDay(){
     const d = new Date();
     console.log(d);
-    const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
-    let week = {};
+    const weekDays = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
+    let weekOrder = [];
+    let weekDates = [];
     let reset = d.getDay();
+    let iterator = 0;
     for(let i = 0; i < 7; i++){
         if(reset < 7){
-            week.i = {"day": weekdays[d.getDay() + i], "date": d.getDate()};
+            weekOrder.push(weekDays[d.getDay() + i]);
+            weekDates.push(d.getDate() + i);
+            console.log("running " + i);
+            reset++;
         }else{
-
+            console.log("running else " + i);
+            weekOrder.push(weekDays[d.getDay() + iterator]);
+            weekDates.push(d.getDate() + i);
+            iterator++;
         }
     };
-    console.log();
-    console.log();
+    console.log(weekOrder);
+    console.log(weekDates)
 }
 getDateAndDay();
 
