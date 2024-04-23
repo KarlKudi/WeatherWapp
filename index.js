@@ -33,24 +33,91 @@ app.use(bodyParser.urlencoded({extended: true}));
 // };
 
 function getDateAndDay(){
-    const d = new Date();
-    console.log(d);
-    const weekDays = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
+    const d = new Date(); //get todays date
+    const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let weekOrder = [];
     let weekDates = [];
-    let reset = d.getDay();
-    let iterator = 0;
-    for(let i = 0; i < 7; i++){
-        if(reset < 7){
+    let reset = d.getDay(); //variable for once Saturday is reach in weekDays array. Reset the week in for loop
+    let iterator = 0; // variable to start from Sunday once Saturday has been reached in for loop
+    let maxDay; // is set in switch statement depending on month of the year. maxDay is set to 31 for 0 "January"
+    let maxDayMet = false; //When for loop reachs the maxday this is turned to true
+    let newMonth = 1; //Variable used to create first day of the month and so on
+
+    //Switch statement to set maxDay based on month of the year January being 0
+    switch (d.getMonth()) {
+        case 0:
+            maxDay = 31;
+            break;
+        case 1:
+            //If statement to account for leap year
+            if(d.getFullYear() % 4 === 0){
+                maxDay = 29;
+                break;
+            }else{
+                maxDay = 28;
+            };
+        case 2:
+            maxDay = 31;
+            break;
+        case 3:
+            maxDay = 30;
+            break;
+        case 4:
+            maxDay = 31;
+            break;
+        case 5:
+            maxDay = 30;
+            break;
+        case 6:
+            maxDay = 31;
+            break;
+        case 7:
+            maxDay = 31;
+            break;
+        case 8:
+            maxDay = 30;
+            break;
+        case 9:
+            maxDay = 31;
+            break;
+        case 10:
+            maxDay = 30;
+            break;
+        case 11:
+            maxDay = 31;
+            break;
+        default:
+            break;
+    }
+
+    //for loop to create weekOrder Mon,Tue,Wed and create the dates
+    for(let i = 0; i < 8; i++){
+        if (maxDayMet && reset < 7){
+            weekOrder.push(weekDays[d.getDay() + i]);
+            weekDates.push(newMonth);
+            newMonth++;
+
+            reset++;
+        }else if(maxDayMet){
+            weekOrder.push(weekDays[iterator]);
+            weekDates.push(newMonth);
+            newMonth++;
+            iterator++;
+        }
+        else if(reset < 7){
             weekOrder.push(weekDays[d.getDay() + i]);
             weekDates.push(d.getDate() + i);
-            console.log("running " + i);
             reset++;
+            if(d.getDate() + i === maxDay){
+                maxDayMet = true;
+            }
         }else{
-            console.log("running else " + i);
-            weekOrder.push(weekDays[d.getDay() + iterator]);
+            weekOrder.push(weekDays[iterator]);
             weekDates.push(d.getDate() + i);
             iterator++;
+            if(d.getDate() + i === maxDay){
+                maxDayMet = true;
+            }
         }
     };
     console.log(weekOrder);
