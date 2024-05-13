@@ -1,10 +1,17 @@
 import express, { response } from 'express';
 import axios from 'axios';
 import bodyParser from 'body-parser';
+import { readFile } from 'fs/promises';
 import countries from './worldcities.json' assert { type: 'json'};
+import world from './world.json' assert {type:'json'};
 
 const app = express();
 const port = 3000;
+const json = JSON.parse(
+    await readFile(
+        new URL('./world.json', import.meta.url)
+    )
+);
 let data = {};
 
 // Testing git fetch
