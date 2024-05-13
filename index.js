@@ -1,18 +1,11 @@
 import express, { response } from 'express';
 import axios from 'axios';
 import bodyParser from 'body-parser';
-import { readFile } from 'fs/promises';
-import countries from './worldcities.json' assert { type: 'json'};
-import world from './world.json' assert {type:'json'};
 
 const app = express();
 const port = 3000;
-const json = JSON.parse(
-    await readFile(
-        new URL('./world.json', import.meta.url)
-    )
-);
 let data = {};
+let lat, lon;
 
 // Testing git fetch
 
@@ -179,19 +172,29 @@ app.get('/',(req,res) =>{
 });
 
 app.post('/country', (req, res) =>{
-    let city = countries.filter((hit) => hit.city === req.body.myCity);
-    city = city[0];
     axios({
         method: 'get',
-        url: `/forecast?latitude=${city.lat}&longitude=${city.lng}&hourly=temperature_2m,weather_code`,
-        baseURL: 'https://api.open-meteo.com/v1'
+        url: `/direct?q=${req.body.myCity}&limit=1&appid=847c0921fceffedbb2ec528b8f8755f1`,
+        baseURL: 'http://api.openweathermap.org/geo/1.0'
     })
     .then(function (response){
-        // getDates(response.data.hourly.time);
-        getDayAverageTemp(response.data.hourly.temperature_2m);
-        getAverageWeatherCode(response.data.hourly.weather_code);
-        res.render('index.ejs',{data: data});
+        console.log(response.data);
+        lat = response.lat;
+        lon = response.lon;
+        console.log(lat);
+        console.log(lon);
+        res.render('index.ejs');
     });
+
+    // axios({
+    //     method: 'get',
+    //     url: `/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`,
+    //     baseURL: 'https://api.open-meteo.com/v1'
+    // })
+    // .then(function (response){
+    //     console.log(response.daily.temperature_2m_max);
+    //     res.render('index.ejs',{data: data});
+    // });
 });
 
 app.listen(port, () =>{
