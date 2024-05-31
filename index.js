@@ -4,10 +4,8 @@ import bodyParser from 'body-parser';
 
 const app = express();
 const port = 3000;
-let data = {};
+let data;
 let lat, lon;
-
-// Testing git fetch
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -120,81 +118,42 @@ function getDateAndDay(){
             }
         }
     };
-    console.log(weekOrder);
-    console.log(weekDates)
 }
 getDateAndDay();
 
-//Create average temperature for each day of the week
-function getDayAverageTemp(tempList){
-    let averageTempList = [];
-    let totalTemp = 0;
-    for(let i = 0; i < 168; i += 24){ //24 hours in a day, 7 days in a week. 24 x 7 = 168 total temperatures
-        for(let y = i; y < i + 24; y += 1){ //want to start counting from the week we're starting at so y = i
-            totalTemp += tempList[y]; //add the value at templist[y] to the total temp
-        };
-        totalTemp = Math.round(totalTemp/24); //divide the total temp by the number of temperatures in a day (24) then round up or down the closest whole number
-        averageTempList.push(totalTemp); //push the whole integer to an array, should end up with 7 whole numbers
-        totalTemp = 0;
-    };
-    data.averageTemperatures = averageTempList; //create new object property setting it to list of average temperatures
-    return data;
-};
+const getLatLon = (city) => {
+    return axios({
+        method: 'get',
+        url: `/direct?q=${city}&limit=1&appid=847c0921fceffedbb2ec528b8f8755f1`,
+        baseURL: 'http://api.openweathermap.org/geo/1.0'
+    })
+    .then((response)=>{
+        lat = response.data[0].lat;
+        lon = response.data[0].lon;
+    })
+}
 
-function getAverageWeatherCode(weathercodes){
-    let mf = 1;
-    let compare = 1;
-    let mfNum = 0;
-    let list = [];
-    for(let i = 0; i < weathercodes.length; i += 24){ //Splits the weatherCodes array into 7 chunks. 1 chunk = 1 day
-        for(let j = i; j < i + 24; j++){ // Selects value in array to compare
-            for(let y = j + 1; y < i + 24; y++){ // Compares selected value to all the values after it in array
-                if(weathercodes[j] === weathercodes[y]){
-                    mf += 1;
-                }
-            };
-            if(mf > compare){
-                mfNum = weathercodes[j];
-                compare = mf;
-            };
-            mf = 1;
-        };
-        list.push(mfNum)
-        mf = 1;
-        compare = 1;
-        mfNum = 0;
-    };
-    return data.weathercodes = list;
-};
+const getWeatherData = () =>{
+    return axios({
+        method: 'get',
+        url: `/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`,
+        baseURL: 'https://api.open-meteo.com/v1'
+    })
+}
 
 app.get('/',(req,res) =>{
+    console.log("route running")
     res.render('index.ejs');
 });
 
 app.post('/country', (req, res) =>{
-    axios({
-        method: 'get',
-        url: `/direct?q=${req.body.myCity}&limit=1&appid=847c0921fceffedbb2ec528b8f8755f1`,
-        baseURL: 'http://api.openweathermap.org/geo/1.0'
-    })
-    .then(function (response){
-        console.log(response.data);
-        lat = response.lat;
-        lon = response.lon;
-        console.log(lat);
-        console.log(lon);
-        res.render('index.ejs');
+    getLatLon(req.body.myCity)
+    .then(() =>{ getWeatherData()
+        .then((response) => {
+            console.log(response.data);
+            res.render('index.ejs',{data: data});
+        })
     });
-
-    // axios({
-    //     method: 'get',
-    //     url: `/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`,
-    //     baseURL: 'https://api.open-meteo.com/v1'
-    // })
-    // .then(function (response){
-    //     console.log(response.daily.temperature_2m_max);
-    //     res.render('index.ejs',{data: data});
-    // });
 });
 
 app.listen(port, () =>{
