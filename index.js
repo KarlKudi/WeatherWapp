@@ -150,7 +150,7 @@ app.post('/country', (req, res) =>{
     getLatLon(req.body.myCity)
     .then(() =>{ getWeatherData()
         .then((response) => {
-            console.log(response.data);
+            console.log(response.data.daily.weather_code);
             res.render('index.ejs',{data: data});
         })
     });
