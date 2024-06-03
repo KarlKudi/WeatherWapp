@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 
 const app = express();
 const port = 3000;
-let data;
+let data = {};
 let lat, lon;
 
 app.use(express.static('public'));
@@ -118,6 +118,8 @@ function getDateAndDay(){
             }
         }
     };
+    data.weekOrder = weekOrder;
+    data.weekDates = weekDates;
 }
 getDateAndDay();
 
@@ -141,6 +143,18 @@ const getWeatherData = () =>{
     })
 }
 
+const sortWeatherData = (responseCodes, responseMaxTemps, responseMinTemps) =>{
+    data.maxTemps = [];
+    data.minTemps = [];
+    data.weatherCodes = responseCodes;
+    responseMaxTemps.forEach(element => {
+        data.maxTemps.push(Math.round(element));
+    });
+    responseMinTemps.forEach(element => {
+        data.minTemps.push(Math.round(element));
+    });
+}
+
 app.get('/',(req,res) =>{
     console.log("route running")
     res.render('index.ejs');
@@ -150,7 +164,7 @@ app.post('/country', (req, res) =>{
     getLatLon(req.body.myCity)
     .then(() =>{ getWeatherData()
         .then((response) => {
-            console.log(response.data.daily.weather_code);
+            sortWeatherData(response.data.daily.weather_code, response.data.daily.temperature_2m_max, response.data.daily.temperature_2m_min);
             res.render('index.ejs',{data: data});
         })
     });
