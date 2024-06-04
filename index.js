@@ -133,6 +133,17 @@ const getLatLon = (city) => {
         lat = response.data[0].lat;
         lon = response.data[0].lon;
     })
+    .catch((error) =>{
+        if(error.response){
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+        }else if (error.request){
+            console.log(error.request);
+        }else{
+            console.log(`Error`, error.message);
+        }
+    })
 }
 
 const getWeatherData = () =>{
@@ -161,13 +172,55 @@ app.get('/',(req,res) =>{
 });
 
 app.post('/country', (req, res) =>{
-    getLatLon(req.body.myCity)
-    .then(() =>{ getWeatherData()
-        .then((response) => {
-            sortWeatherData(response.data.daily.weather_code, response.data.daily.temperature_2m_max, response.data.daily.temperature_2m_min);
-            res.render('index.ejs',{data: data});
+    axios({
+        method: 'get',
+        url: `/direct?q=${req.body.myCity}&limit=1&appid=847c0921fceffedbb2ec528b8f8755f1`,
+        baseURL: 'http://api.openweathermap.org/geo/1.0'
+    })
+    .then((response)=>{
+        lat = response.data[0].lat;
+        lon = response.data[0].lon;
+    }).then(() =>{
+        return axios({
+            method: 'get',
+            url: `/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`,
+            baseURL: 'https://api.open-meteo.com/v1'
         })
-    });
+    }).then((response) =>{
+        sortWeatherData(response.data.daily.weather_code, response.data.daily.temperature_2m_max, response.data.daily.temperature_2m_min);
+        res.render('index.ejs',{data: data});
+    })
+    .catch((error) =>{
+        if(error.response){
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+        }else if (error.request){
+            console.log(error.request);
+        }else{
+            console.log(`Error`, error.message);
+            let alert = 'Please input a valid city/town name';
+            res.render('index.ejs', {alert: alert});
+        }
+    })
+    // getLatLon(req.body.myCity)
+    // .then(() =>{ getWeatherData()
+    //     .then((response) => {
+    //         sortWeatherData(response.data.daily.weather_code, response.data.daily.temperature_2m_max, response.data.daily.temperature_2m_min);
+    //         res.render('index.ejs',{data: data});
+    //     })
+    // })
+    // .catch((error) =>{
+    //     if(error.response){
+    //         console.log(error.response.data);
+    //         console.log(error.response.status);
+    //         console.log(error.response.headers);
+    //     }else if (error.request){
+    //         console.log(error.request);
+    //     }else{
+    //         console.log(`Error`, error.message);
+    //     }
+    // })
 });
 
 app.listen(port, () =>{

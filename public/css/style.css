@@ -40,6 +40,11 @@ footer{
     color: black;
 }
 
+.alert{
+    background: white;
+    color: red;
+}
+
 .screenTitle{
     color: white;
     margin: 0 0 0 10%;
@@ -79,9 +84,9 @@ footer{
 }
 
 .searchInputs{
-    /* width: 40%; */
+    width: 40%;
     font-size: 24px;
-    border: 5px solid #1B262C;
+    border: 3px solid #1B262C;
     border-radius: 10px;
     margin-right: 10px;
 }
@@ -89,7 +94,7 @@ footer{
 .searchButton{
     font-size: 24px;
     color: black;
-    border: 5px solid #1B262C;
+    border: 3px solid #1B262C;
     border-radius: 10px;
     background-color: #BBE1FA;
 }

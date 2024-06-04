@@ -16,7 +16,7 @@
         <a href="/"><h2 class="screenTitle">WeatherWapp</h2></a>
     </header>
       <form class="searchForm" role="search" method="post" action="/country">
-        <input id="myInput" class="searchInputs" name="myCity" type="search" placeholder="City" aria-label="Search">
+        <input id="myInput" class="searchInputs" name="myCity" type="search" placeholder="City" aria-label="Search" autocomplete="off">
         <button class="searchButton" type="submit"> <i class="fa-solid fa-magnifying-glass"></i> </button>
       </form>
       <% if (locals.data){ %>
@@ -33,6 +33,11 @@
           <p>Enter the country and city you want to know the weather of. We'll handle the rest.smile</p>
         </div>
       <% } %>
+
+      <% if (locals.alert){ %>
+        <h1 class="alert"> <%= alert %></h1>
+      <% } %>
+
     <footer>By Carl Egonu</footer>
     <script type="module" src="scripts/autoSuggestion.js"></script>
   </body>
