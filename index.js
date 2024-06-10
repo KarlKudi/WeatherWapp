@@ -120,9 +120,9 @@ function getDateAndDay(){
     };
 
     for(let i = 0; i<weekDates.length; i++) {
-        if(weekDates[i] === '1' || '21' || '31'){
+        if(weekDates[i] === '1' || weekDates[i] === '21' || weekDates[i] === '31'){
             weekDates[i] = weekDates[i] + 'st'
-        } else if(weekDates[i] === '2' || '22'){
+        } else if(weekDates[i] === '2' || weekDates[i] === '22'){
             weekDates[i] = weekDates[i] + 'nd'
         }else{
             weekDates[i] = weekDates[i] + 'th'
