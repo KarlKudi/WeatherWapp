@@ -92,67 +92,78 @@ function getDateAndDay(){
     for(let i = 0; i < 8; i++){
         if (maxDayMet && reset < 7){
             weekOrder.push(weekDays[d.getDay() + i]);
-            weekDates.push(newMonth);
+            weekDates.push(newMonth.toString());
             newMonth++;
 
             reset++;
         }else if(maxDayMet){
             weekOrder.push(weekDays[iterator]);
-            weekDates.push(newMonth);
+            weekDates.push(newMonth.toString());
             newMonth++;
             iterator++;
         }
         else if(reset < 7){
             weekOrder.push(weekDays[d.getDay() + i]);
-            weekDates.push(d.getDate() + i);
+            weekDates.push((d.getDate() + i).toString());
             reset++;
             if(d.getDate() + i === maxDay){
                 maxDayMet = true;
             }
         }else{
             weekOrder.push(weekDays[iterator]);
-            weekDates.push(d.getDate() + i);
+            weekDates.push((d.getDate() + i).toString());
             iterator++;
             if(d.getDate() + i === maxDay){
                 maxDayMet = true;
             }
         }
     };
+
+    for(let i = 0; i<weekDates.length; i++) {
+        if(weekDates[i] === '1' || '21' || '31'){
+            weekDates[i] = weekDates[i] + 'st'
+        } else if(weekDates[i] === '2' || '22'){
+            weekDates[i] = weekDates[i] + 'nd'
+        }else{
+            weekDates[i] = weekDates[i] + 'th'
+        }
+    };
+
     data.weekOrder = weekOrder;
     data.weekDates = weekDates;
 }
 getDateAndDay();
 
-const getLatLon = (city) => {
-    return axios({
-        method: 'get',
-        url: `/direct?q=${city}&limit=1&appid=847c0921fceffedbb2ec528b8f8755f1`,
-        baseURL: 'http://api.openweathermap.org/geo/1.0'
-    })
-    .then((response)=>{
-        lat = response.data[0].lat;
-        lon = response.data[0].lon;
-    })
-    .catch((error) =>{
-        if(error.response){
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-        }else if (error.request){
-            console.log(error.request);
-        }else{
-            console.log(`Error`, error.message);
-        }
-    })
-}
+// const getLatLon = (city) => {
+//     return axios({
+//         method: 'get',
+//         url: `/direct?q=${city}&limit=1&appid=847c0921fceffedbb2ec528b8f8755f1`,
+//         baseURL: 'http://api.openweathermap.org/geo/1.0'
+//     })
+//     .then((response)=>{
+//         lat = response.data[0].lat;
+//         lon = response.data[0].lon;
+//     })
+//     .catch((error) =>{
+//         if(error.response){
+//             console.log(error.response.data);
+//             console.log(error.response.status);
+//             console.log(error.response.headers);
+//         }else if (error.request){
+//             console.log(error.request);
+//         }else{
+//             console.log(`Error`, error.message);
+//         }
+//     })
+// }
 
-const getWeatherData = () =>{
-    return axios({
-        method: 'get',
-        url: `/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`,
-        baseURL: 'https://api.open-meteo.com/v1'
-    })
-}
+// const getWeatherData = () =>{
+//     return axios({
+//         method: 'get',
+//         url: `/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto`,
+//         baseURL: 'https://api.open-meteo.com/v1'
+//     })
+// }
 
 const sortWeatherData = (responseCodes, responseMaxTemps, responseMinTemps) =>{
     data.maxTemps = [];
@@ -188,6 +199,7 @@ app.post('/country', (req, res) =>{
         })
     }).then((response) =>{
         sortWeatherData(response.data.daily.weather_code, response.data.daily.temperature_2m_max, response.data.daily.temperature_2m_min);
+        console.log(data);
         res.render('index.ejs',{data: data});
     })
     .catch((error) =>{
