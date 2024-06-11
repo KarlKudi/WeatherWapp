@@ -106,14 +106,17 @@ footer{
 
 /* Weather response */
 
-#responseContainer{
+#cityName{
+    background-color: #1B262C;
+    color: white;
+    margin: 0;
+    padding: 20px 0 20px 0;
+}
+
+#weatherCardsFlexbox{
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
     background-color: white;
-}
-
-.responseContainer{
-    
 }
 

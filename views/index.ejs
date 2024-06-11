@@ -21,13 +21,16 @@
       </form>
       <% if (locals.data){ %>
         <div id="responseContainer">
-          <% for(let i = 0; i < data.maxTemps.length; i++){ %>
-            <div class="weatherCard">
-              <p class="dates"> <%= data.weekOrder[i]%> <%= data.weekDates[i] %></p>
-              <h2 class="weatherTemperature"><%= data.minTemps[i] %> </h2>
-              <h2 class="weatherTemperature"><%= data.maxTemps[i] %></h2>
-            </div>
-          <% } %>
+          <h1 id="cityName"><%= data.cityName %></h1>
+            <div id="weatherCardsFlexbox">
+              <% for(let i = 0; i < data.maxTemps.length; i++){ %>
+                <div class="weatherCard">
+                  <p class="dates"> <%= data.weekOrder[i]%> <%= data.weekDates[i] %></p>
+                  <h2 class="weatherTemperature"><%= data.minTemps[i] %> </h2>
+                  <h2 class="weatherTemperature"><%= data.maxTemps[i] %></h2>
+                </div>
+              <% } %>
+          </div>
         </div>
       <%} else{ %>
         <div id="description">
