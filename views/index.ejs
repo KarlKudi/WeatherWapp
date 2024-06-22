@@ -30,85 +30,113 @@
 
                     case 0:%>
 
-                      <img src="images/weather_icons/sunny_day.png" alt="clear sky">
+                      <div class="image_container">
+                        <img src="images/weather_icons/sunny_day.png" alt="clear sky">
+                      </div>
                       <% break;
 
                     case 1:
                     case 2:
                     case 3: %>
 
+                    <div class="image_container">
                       <img src="images/weather_icons/sunny_clouds.png" alt="partly cloudy">
-                      <% break;
+                    </div>
+                    <% break;
                     
                     case 45:
                     case 48: %>
 
+                    <div class="image_container">
                       <img src="images/weather_icons/cloudy.png" alt="fog">
-                      <% break;
+                    </div>
+                    <% break;
 
                     case 51:
                     case 53:
                     case 55: %>
 
+                    <div class="image_container"></div>
                       <img src="images/weather_icons/drizzle.png" alt="drizzle">
-                      <% break;
+                    </div>
+                    <% break;
 
                     case 56:
                     case 57: %>
 
+                    <div class="image_container">
                       <img src="images/weather_icons/freezing_drizzle.png" alt="freezing drizzle">
-                      <% break;
+                    </div>
+                    <% break;
                     
                     case 61:
                     case 63:
                     case 65: %>
 
+                    <div class="image_container">
                       <img src="images/weather_icons/rain.png" alt="rain">
-                      <% break;
+                    </div>
+                    <% break;
 
                     case 66:
                     case 67: %>
 
+                    <div class="image_container">
                       <img src="images/weather_icons/rain.png" alt="freezing rain">
-                      <% break;
+                    </div>
+                    <% break;
 
                     case 71:
                     case 73:
                     case 75: %>
 
+                    <div class="image_container">
                       <img src="images/weather_icons/snow.png" alt="snow">
-                      <% break;
+                    </div>
+                    <% break;
                     
                     case 77: %>
 
+                    <div class="image_container">
                       <img src="images/weather_icons/snow.png" alt="snow">
-                      <% break;
+                    </div>
+                    <% break;
 
                     case 80:
                     case 81:
                     case 82: %>
+
+                    <div class="image_container">
                       <img src="images/weather_icons/drizzle.png" alt="rain and showers">
-                      <% break;
+                    </div>
+                    <% break;
 
                     case 85:
                     case 86: %>
 
+                    <div class="image_container">
                      <img src="images/weather_icons/rain_and_snow.png" alt="rain and snow">
-                     <% break;
+                    </div>
+                    <% break;
 
                     case 95: %>
 
+                    <div class="image_container">
                       <img src="images/weather_icons/thunderstorms.png" alt="thunderstorms">
-                      <% break;
+                    </div>
+                    <% break;
 
                     case 96:
                     case 99: %>
 
+                    <div class="image_container">
                       <img src="images/weather_icons/rain_and_thunder.png" alt="thunderstorm and hail">
+                    </div>
                     
                     default: %>
+
                       <p>Image not found</p>
-                      
+                        
                   <% } %>
                   <h2 class="weatherTemperature"><%= data.maxTemps[i] %></h2>
                   <h2 class="weatherTemperature"><%= data.minTemps[i] %></h2>
