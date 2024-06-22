@@ -26,8 +26,92 @@
               <% for(let i = 0; i < data.maxTemps.length; i++){ %>
                 <div class="weatherCard">
                   <p class="dates"> <%= data.weekOrder[i]%> <%= data.weekDates[i] %></p>
-                  <h2 class="weatherTemperature"><%= data.minTemps[i] %> </h2>
+                  <% switch(data.weatherCodes[i]) {
+
+                    case 0:%>
+
+                      <img src="images/weather_icons/sunny_day.png" alt="clear sky">
+                      <% break;
+
+                    case 1:
+                    case 2:
+                    case 3: %>
+
+                      <img src="images/weather_icons/sunny_clouds.png" alt="partly cloudy">
+                      <% break;
+                    
+                    case 45:
+                    case 48: %>
+
+                      <img src="images/weather_icons/cloudy.png" alt="fog">
+                      <% break;
+
+                    case 51:
+                    case 53:
+                    case 55: %>
+
+                      <img src="images/weather_icons/drizzle.png" alt="drizzle">
+                      <% break;
+
+                    case 56:
+                    case 57: %>
+
+                      <img src="images/weather_icons/freezing_drizzle.png" alt="freezing drizzle">
+                      <% break;
+                    
+                    case 61:
+                    case 63:
+                    case 65: %>
+
+                      <img src="images/weather_icons/rain.png" alt="rain">
+                      <% break;
+
+                    case 66:
+                    case 67: %>
+
+                      <img src="images/weather_icons/rain.png" alt="freezing rain">
+                      <% break;
+
+                    case 71:
+                    case 73:
+                    case 75: %>
+
+                      <img src="images/weather_icons/snow.png" alt="snow">
+                      <% break;
+                    
+                    case 77: %>
+
+                      <img src="images/weather_icons/snow.png" alt="snow">
+                      <% break;
+
+                    case 80:
+                    case 81:
+                    case 82: %>
+                      <img src="images/weather_icons/drizzle.png" alt="rain and showers">
+                      <% break;
+
+                    case 85:
+                    case 86: %>
+
+                     <img src="images/weather_icons/rain_and_snow.png" alt="rain and snow">
+                     <% break;
+
+                    case 95: %>
+
+                      <img src="images/weather_icons/thunderstorms.png" alt="thunderstorms">
+                      <% break;
+
+                    case 96:
+                    case 99: %>
+
+                      <img src="images/weather_icons/rain_and_thunder.png" alt="thunderstorm and hail">
+                    
+                    default: %>
+                      <p>Image not found</p>
+                      
+                  <% } %>
                   <h2 class="weatherTemperature"><%= data.maxTemps[i] %></h2>
+                  <h2 class="weatherTemperature"><%= data.minTemps[i] %></h2>
                 </div>
               <% } %>
           </div>
@@ -44,6 +128,5 @@
       <% } %>
 
     <footer>By Carl Egonu</footer>
-    <script type="module" src="scripts/autoSuggestion.js"></script>
   </body>
 </html>
