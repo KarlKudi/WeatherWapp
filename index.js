@@ -140,12 +140,12 @@ const sortWeatherData = (responseCodes, responseMaxTemps, responseMinTemps) =>{
     data.weatherCodes = responseCodes;
     responseMaxTemps.forEach(element => {
         element = Math.round(element);
-        element = element.toString() + '°';
+        element = element.toString() + '°C';
         data.maxTemps.push(element);
     });
     responseMinTemps.forEach(element => {
         element = Math.round(element);
-        element = element.toString() + '°';
+        element = element.toString() + '°C';
         data.minTemps.push(element);
     });
 }

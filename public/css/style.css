@@ -114,7 +114,12 @@ footer{
 }
 
 .image_container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 15em;
+    height: 7em;
+    background-color: #1B262C;
 }
 
 #weatherCardsFlexbox{
@@ -128,5 +133,6 @@ footer{
     background-color: rgb(197, 197, 197);
     padding: 2% 0 2% 0;
     margin: 1% 0 1% 0;
+    border: 5px solid #1B262C;
 }
 
